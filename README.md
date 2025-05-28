@@ -90,7 +90,7 @@ The model provided valuable insights into which features were most critical for 
         * **Lowest Fraud Percentage:** `step` **8 (0.04%)** had the highest transaction volume but a very low fraud rate.
     * **Insight:** The model learned to use `step` as a critical indicator. It understood that transactions occurring at `step` 8 are highly likely to be legitimate, while those at `step` 4, 5, or 6 have a proportionally much higher chance of being fraudulent.
 
-![Step Distribution Plot](step_distribution.png)
+![Step Distribution Plot](]fraud_distribution.png)
 ![Feature Importance Plot](feature_importance.png)
 
 ---
