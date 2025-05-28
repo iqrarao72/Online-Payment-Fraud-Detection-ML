@@ -90,7 +90,47 @@ The model provided valuable insights into which features were most critical for 
         * **Lowest Fraud Percentage:** `step` **8 (0.04%)** had the highest transaction volume but a very low fraud rate.
     * **Insight:** The model learned to use `step` as a critical indicator. It understood that transactions occurring at `step` 8 are highly likely to be legitimate, while those at `step` 4, 5, or 6 have a proportionally much higher chance of being fraudulent.
 
-**[Optional: Add Step Distribution Plot Here]**
-*Make sure you have an image file named `step_distribution.png` (or whatever you named it) in your GitHub repository, in the same folder as this README, or specify the correct path if it's in a subfolder (e.g., `images/step_distribution.png`).*
-```markdown
 ![Step Distribution Plot](step_distribution.png)
+![Feature Importance Plot](feature_importance.png)
+
+---
+
+### **Error Analysis: Understanding Misses and False Alarms**
+
+Understanding the model's mistakes is vital in fraud detection:
+
+* **False Negatives (Missed Fraud): 5 Transactions**
+    * These were 5 actual fraudulent transactions that the model failed to detect.
+    * Sample analysis showed these were often `CASH_OUT` or `TRANSFER` types, and 3 involved the source account being drained (`oldbalanceOrg > 0` and `newbalanceOrig == 0`). Their `step` values were within common ranges (1, 6, 7).
+    * **Implication:** There are subtle characteristics in these missed cases that the model hasn't fully captured. Further in-depth analysis and potential feature engineering (e.g., specific balance ratios, velocity features) could target these.
+
+* **False Positives (Incorrectly Flagged as Fraud): 6 Transactions**
+    * These were 6 legitimate transactions that the model mistakenly flagged as fraudulent.
+    * Sample analysis indicated these were also `CASH_OUT` types with significant balance changes, which might have led the model to suspect them as fraud.
+    * **Implication:** These cases share similarities with fraudulent transactions. While not ideal for user experience, they can be managed with secondary review processes without rejecting legitimate users outright.
+
+![Confusion Matrix Plot](confusion_matrix.png)
+
+---
+
+### **Conclusion & Future Work**
+
+We successfully built a robust Online Payment Fraud Detection Model that effectively handles **extreme class imbalance** and detects fraudulent transactions with high accuracy and recall. The model provides valuable insights, particularly from the transaction hour (`step`).
+
+**Potential Future Work:**
+
+* **Deeper False Negative Analysis:** Investigate the 5 missed fraud cases further to engineer new features (e.g., specific balance ratios, velocity features) that could help detect them.
+* **Threshold Optimization:** Adjust the model's prediction probability threshold to achieve a better balance between Recall and Precision, aligning with specific business requirements.
+* **Real-time Implementation:** Explore strategies for deploying and applying the model on a live transaction stream.
+
+---
+
+### **How to View This Project**
+
+You can explore this project in detail:
+
+* **[Open Project in Google Colab (View Live Notebook)](https://colab.research.google.com/drive/1iRli6cCtNkoRdlN29Icdfo-3AQtbfzfi?usp=sharing)**   
+* The full Jupyter Notebook (`.ipynb` file) containing all the code and detailed analysis is also available in this repository.
+* The trained model (`tuned_random_forest_model.joblib`) and the data preprocessor (`data_preprocessor.joblib`) are saved in the `fraud_detection_model/` directory within this repository.
+
+---
